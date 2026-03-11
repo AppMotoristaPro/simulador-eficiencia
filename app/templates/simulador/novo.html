@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white text-center fw-bold">
+                Parâmetros da Empresa
+            </div>
+            <div class="card-body">
+                <form id="formSimulador">
+                    <div class="mb-3">
+                        <label class="form-label text-muted small fw-bold">Ramo de Atividade (Simples Nacional)</label>
+                        <select class="form-select" id="anexo" name="anexo" required>
+                            <option value="I">Anexo I - Comércio</option>
+                            <option value="II">Anexo II - Indústria</option>
+                            <option value="III">Anexo III - Serviços Operacionais</option>
+                            <option value="IV">Anexo IV - Serviços Gerais</option>
+                            <option value="V">Anexo V - Serviços Específicos</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label text-muted small fw-bold">Faturamento Mensal Declarado</label>
+                        <div class="input-group">
+                            <span class="input-group-text">R$</span>
+                            <input type="number" class="form-control" id="faturamento_mensal" value="150000" step="0.01" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-muted small fw-bold">Custo com Insumos</label>
+                        <div class="input-group">
+                            <span class="input-group-text">R$</span>
+                            <input type="number" class="form-control" id="custo_insumos" value="20000" step="0.01" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label text-muted small fw-bold">Custo com Fornecedores/Parceiros</label>
+                        <div class="input-group">
+                            <span class="input-group-text">R$</span>
+                            <input type="number" class="form-control" id="custo_fornecedores" value="30000" step="0.01" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">Gerar Simulação</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div id="placeholderResultados" class="text-center mt-5 text-muted">
+            <h4 class="fw-light">Preencha os dados e clique em "Gerar Simulação"</h4>
+            <p>O comparativo tributário aparecerá aqui.</p>
+        </div>
+
+        <div class="row d-none" id="painelResultados">
+            <div class="col-12 mb-4">
+                <div class="card bg-success text-white shadow border-0">
+                    <div class="card-body text-center py-4">
+                        <h5 class="text-uppercase mb-3" style="letter-spacing: 1px;">Economia Usando Split (12 meses)</h5>
+                        <h1 class="display-4 fw-bold" id="resEconomiaAnual">R$ 0,00</h1>
+                        <p class="lead mb-0 mt-3">Aumento projetado no lucro líquido: <span id="resAumentoLucro" class="fw-bold bg-white text-success px-2 py-1 rounded">0%</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <div class="card border-danger h-100 shadow-sm">
+                    <div class="card-header bg-danger text-white fw-bold text-center">
+                        Cenário 1: Sem Split
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Fat. Declarado:</span>
+                            <span class="fw-bold" id="resFatSemSplit">R$ 0,00</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 border-bottom pb-2">
+                            <span class="text-danger">Imposto Bruto (DAS):</span>
+                            <span class="fw-bold text-danger" id="resImpSemSplit">R$ 0,00</span>
+                        </div>
+                        <div class="text-center mt-3">
+                            <span class="text-muted small d-block">Margem de Contribuição (Lucro)</span>
+                            <h4 class="text-primary fw-bold mt-1" id="resLucroSemSplit">R$ 0,00</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <div class="card border-success h-100 shadow-sm">
+                    <div class="card-header bg-success text-white fw-bold text-center">
+                        Cenário 2: Com Eficiência (Split)
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Fat. Declarado:</span>
+                            <span class="fw-bold" id="resFatComSplit">R$ 0,00</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 border-bottom pb-2">
+                            <span class="text-success">Imposto Bruto (DAS):</span>
+                            <span class="fw-bold text-success" id="resImpComSplit">R$ 0,00</span>
+                        </div>
+                        <div class="text-center mt-3">
+                            <span class="text-muted small d-block">Margem de Contribuição (Lucro)</span>
+                            <h4 class="text-primary fw-bold mt-1" id="resLucroComSplit">R$ 0,00</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Intercepta o envio do formulário
+    document.getElementById('formSimulador').addEventListener('submit', async function(e) {
+        e.preventDefault(); // Impede a página de recarregar
+        
+        // Coleta os dados digitados
+        const dados = {
+            anexo: document.getElementById('anexo').value,
+            faturamento_mensal: parseFloat(document.getElementById('faturamento_mensal').value),
+            custo_insumos: parseFloat(document.getElementById('custo_insumos').value),
+            custo_fornecedores: parseFloat(document.getElementById('custo_fornecedores').value)
+        };
+
+        try {
+            // Envia para a nossa rota Python de forma invisível
+            const response = await fetch('/simulador/calcular', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados)
+            });
+
+            const resultado = await response.json();
+            
+            if (resultado.erro) {
+                alert(resultado.erro);
+                return;
+            }
+
+            // Função para formatar números para Reais (R$)
+            const formatarMoeda = (valor) => valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            // Atualiza os painéis Verdes (Resumo)
+            document.getElementById('resEconomiaAnual').textContent = formatarMoeda(resultado.ganhos.economia_anual);
+            document.getElementById('resAumentoLucro').textContent = (resultado.ganhos.aumento_lucro_pct * 100).toFixed(2) + '%';
+
+            // Atualiza o Cenário 1 (Sem Split)
+            document.getElementById('resFatSemSplit').textContent = formatarMoeda(resultado.cenario_1.faturamento_declarado);
+            document.getElementById('resImpSemSplit').textContent = formatarMoeda(resultado.cenario_1.imposto);
+            document.getElementById('resLucroSemSplit').textContent = formatarMoeda(resultado.cenario_1.lucro);
+
+            // Atualiza o Cenário 2 (Com Split)
+            document.getElementById('resFatComSplit').textContent = formatarMoeda(resultado.cenario_2.faturamento_declarado);
+            document.getElementById('resImpComSplit').textContent = formatarMoeda(resultado.cenario_2.imposto);
+            document.getElementById('resLucroComSplit').textContent = formatarMoeda(resultado.cenario_2.lucro);
+
+            // Oculta a mensagem de "Preencha os dados" e exibe os gráficos
+            document.getElementById('placeholderResultados').classList.add('d-none');
+            document.getElementById('painelResultados').classList.remove('d-none');
+
+        } catch (error) {
+            console.error("Erro na requisição:", error);
+            alert("Ocorreu um erro ao calcular. Verifique se a API está rodando.");
+        }
+    });
+</script>
+{% endblock %}
+
