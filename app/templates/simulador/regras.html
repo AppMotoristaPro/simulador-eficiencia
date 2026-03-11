@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10 mb-5">
+        
+        <div class="text-center mb-5">
+            <h1 class="fw-bold text-primary">Como funciona o cálculo?</h1>
+            <p class="lead text-muted">Entenda as regras do Simples Nacional e como o Split de Pagamentos gera eficiência tributária para o seu negócio.</p>
+        </div>
+
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <h3 class="fw-bold mb-3 border-bottom pb-2">O que é o Simples Nacional?</h3>
+                <p>O Simples Nacional é um regime tributário que une os principais tributos e contribuições existentes no país. Dentre suas principais vantagens está a relativa simplificação na apuração dos valores. Essa apuração é feita de acordo com a receita bruta (faturamento) da empresa nos últimos 12 meses.</p>
+                <p>Outra vantagem é o recolhimento através de uma única guia, o <strong>DAS – Documento de Arrecadação do Simples Nacional</strong>.</p>
+            </div>
+        </div>
+
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <h3 class="fw-bold mb-3 border-bottom pb-2">Os Anexos (Ramos de Atividade)</h3>
+                <p>O regime está organizado em 5 anexos, variando de acordo com o ramo de atividade. Cada anexo tem faixas de alíquotas que variam conforme o faturamento anual:</p>
+                <ul class="list-group list-group-flush mb-3">
+                    <li class="list-group-item"><strong>Anexo I:</strong> Para o Comércio (lojas em geral).</li>
+                    <li class="list-group-item"><strong>Anexo II:</strong> Para a Indústria (fabricação em geral).</li>
+                    <li class="list-group-item"><strong>Anexo III:</strong> Atividades mais operacionais (ex: serviços de instalação, reparos, agência de viagem, escritórios de contabilidade, edição de imagens).</li>
+                    <li class="list-group-item"><strong>Anexo IV:</strong> Serviços em geral (ex: vigilância, advocacia, parte das atividades de construção civil).</li>
+                    <li class="list-group-item"><strong>Anexo V:</strong> Serviços específicos (ex: academias, empresas de tecnologia/licenciamento de softwares, eventos, clínicas médicas).</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <h3 class="fw-bold mb-3 border-bottom pb-2">Tabela de Alíquotas Base por Faixa</h3>
+                <p class="small text-muted mb-3">*Atenção: Os valores do simulador representam as alíquotas nominais. Na prática contábil, aplicam-se fatores de dedução (como o Fator R e deduções de parcela) dependendo do histórico da empresa.</p>
+                
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Faixa</th>
+                                <th>Faturamento Anual Projetado</th>
+                                <th>Anexo I</th>
+                                <th>Anexo II</th>
+                                <th>Anexo III</th>
+                                <th>Anexo IV</th>
+                                <th>Anexo V</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>Até R$ 180.000</td><td>4,00%</td><td>4,50%</td><td>6,00%</td><td>4,50%</td><td>15,50%</td></tr>
+                            <tr><td>2</td><td>De R$ 180.000 a R$ 360.000</td><td>7,30%</td><td>7,80%</td><td>11,20%</td><td>9,00%</td><td>18,00%</td></tr>
+                            <tr><td>3</td><td>De R$ 360.000 a R$ 720.000</td><td>9,50%</td><td>10,00%</td><td>13,50%</td><td>10,20%</td><td>19,50%</td></tr>
+                            <tr><td>4</td><td>De R$ 720.000 a R$ 1.800.000</td><td>10,70%</td><td>11,20%</td><td>16,00%</td><td>14,00%</td><td>20,50%</td></tr>
+                            <tr><td>5</td><td>De R$ 1.800.000 a R$ 3.600.000</td><td>14,30%</td><td>14,70%</td><td>21,00%</td><td>22,00%</td><td>23,00%</td></tr>
+                            <tr><td>6</td><td>De R$ 3.600.000 a R$ 4.800.000</td><td>19,00%</td><td>30,00%</td><td>33,00%</td><td>33,00%</td><td>30,50%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-success text-white shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <h3 class="fw-bold mb-3 border-bottom pb-2">Como a Eficiência Tributária (Split) funciona?</h3>
+                <p>Em um cenário normal, se você vende um serviço de R$ 10.000, mas R$ 3.000 desse valor é repassado para fornecedores ou parceiros, você paga imposto sobre os R$ 10.000 inteiros.</p>
+                <p class="mb-0"><strong>Com a tecnologia de Split de Pagamento</strong>, o dinheiro é dividido automaticamente na hora da transação. O fornecedor recebe os R$ 3.000 direto na conta dele, e você declara e paga impostos <strong>apenas sobre a sua parte real (R$ 7.000)</strong>, mantendo-se em faixas menores do Simples Nacional e aumentando a sua margem de lucro líquido.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+

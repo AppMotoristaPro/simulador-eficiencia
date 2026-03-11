@@ -1,12 +1,18 @@
 from flask import Blueprint, render_template, request, jsonify
 from app.services.tributacao_service import TributacaoService
 
+# Cria o Blueprint do simulador
 simulador_bp = Blueprint('simulador', __name__)
 
 @simulador_bp.route('/', methods=['GET'])
 def index():
-    # Rota que vai renderizar a página com o formulário para o usuário preencher
+    # Renderiza a página principal com o formulário
     return render_template('simulador/novo.html')
+
+@simulador_bp.route('/regras', methods=['GET'])
+def regras():
+    # Renderiza a página explicativa do Simples Nacional e Split
+    return render_template('simulador/regras.html')
 
 @simulador_bp.route('/calcular', methods=['POST'])
 def calcular():

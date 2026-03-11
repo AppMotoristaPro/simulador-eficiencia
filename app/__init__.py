@@ -9,15 +9,15 @@ def create_app():
     # Configurações de segurança e banco de dados
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'chave-super-secreta-simulador')
     
-    # Puxa a URL do banco Neon configurada no Render. Se não achar (rodando local), cria um SQLite temporário.
+    # Puxa a URL do banco Neon configurada no Render. Se não achar, cria um SQLite local.
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///local_dev.db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Inicializa as extensões com o app
     db.init_app(app)
 
-    # Registra os Blueprints (Rotas)
-    app.register_blueprint(simulador_bp, url_prefix='/simulador')
+    # AQUI FOI A MUDANÇA: O simulador agora abre direto na URL principal
+    app.register_blueprint(simulador_bp, url_prefix='/')
 
     # Cria as tabelas no banco de dados se elas não existirem
     with app.app_context():
