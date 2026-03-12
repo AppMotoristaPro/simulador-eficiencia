@@ -130,8 +130,8 @@
         };
 
         try {
-            // Envia para a nossa rota Python de forma invisível
-            const response = await fetch('/simulador/calcular', {
+            // AQUI FOI CORRIGIDO: Agora a requisição vai para a raiz do servidor (/calcular)
+            const response = await fetch('/calcular', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dados)
